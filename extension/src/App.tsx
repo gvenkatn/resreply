@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { generateReplies } from "./api";
+import type { GenerateResponse, Tone } from "./types";
 import "./style.css";
 
 type SelectedTextResponse = {
@@ -7,6 +9,10 @@ type SelectedTextResponse = {
 
 export function App() {
   const [selectedText, setSelectedText] = useState("");
+  const [tone] = useState<Tone>("professional");
+  const [result, setResult] = useState<GenerateResponse | null>(null);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     loadSelectedText();
@@ -31,6 +37,25 @@ export function App() {
     );
   }
 
+  async function handleGenerate() {
+    setError("");
+    setResult(null);
+    setIsLoading(true);
+
+    try {
+      const response = await generateReplies({
+        selectedText,
+        tone,
+      });
+
+      setResult(response);
+    } catch {
+      setError("Failed to generate replies.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <main className="app">
       <header className="header">
@@ -49,9 +74,30 @@ export function App() {
         />
       </section>
 
-      <button className="primaryButton" type="button">
-        Generate replies
+      <button
+        className="primaryButton"
+        type="button"
+        disabled={!selectedText || isLoading}
+        onClick={handleGenerate}
+      >
+        {isLoading ? "Generating..." : "Generate replies"}
       </button>
+
+      {error && <p role="alert">{error}</p>}
+
+      {result && (
+        <section className="card">
+          <h2>Reply score: {result.replyScore}/10</h2>
+          <p>{result.strategy}</p>
+
+          {result.suggestions.map((suggestion) => (
+            <article key={suggestion.label}>
+              <h3>{suggestion.label}</h3>
+              <p>{suggestion.text}</p>
+            </article>
+          ))}
+        </section>
+      )}
     </main>
   );
 }
