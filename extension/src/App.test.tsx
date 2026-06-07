@@ -9,6 +9,12 @@ vi.mock("./api", () => ({
 beforeEach(() => {
   vi.clearAllMocks();
 
+  Object.assign(navigator, {
+    clipboard: {
+      writeText: vi.fn(),
+    },
+  });
+
   global.chrome = {
     tabs: {
       query: vi.fn().mockResolvedValue([{ id: 1 }]),

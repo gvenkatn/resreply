@@ -58,6 +58,19 @@ textarea {
   cursor: pointer;
 }
 
+.suggestion {
+    border-top: 1px solid #334155;
+    padding-top: 12px;
+    margin-top: 12px;
+  }
+  
+  .secondaryButton {
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 8px 10px;
+    background: transparent;
+    color: #e5e7eb;
+    cursor: pointer;
 select {
     width: 100%;
     box-sizing: border-box;
