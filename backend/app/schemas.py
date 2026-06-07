@@ -12,12 +12,26 @@ class Tone(str, Enum):
     WITTY = "witty"
 
 
+class PostType(str, Enum):
+    HIRING_POST = "hiring_post"
+    TECHNICAL_POST = "technical_post"
+    MILESTONE = "milestone"
+    DISCUSSION = "discussion"
+    GENERIC = "generic"
+
+
 class Persona(BaseModel):
-    role: str = "Software Engineer"
-    interests: List[str] = Field(
-        default_factory=lambda: ["AI infrastructure", "distributed systems"]
+    role: str = Field(default="Professional", min_length=2, max_length=80)
+    goals: List[str] = Field(
+        default_factory=lambda: ["write thoughtful replies"],
+        min_length=1,
+        max_length=10,
     )
-    style: str = "concise, warm, technical"
+    style: str = Field(
+        default="concise, thoughtful, professional",
+        min_length=3,
+        max_length=160,
+    )
 
 
 class GenerateRequest(BaseModel):
@@ -27,14 +41,14 @@ class GenerateRequest(BaseModel):
 
 
 class Suggestion(BaseModel):
-    label: str
-    text: str
+    label: str = Field(min_length=1, max_length=40)
+    text: str = Field(min_length=1, max_length=1000)
 
 
 class GenerateResponse(BaseModel):
-    summary: str
-    postType: str
-    replyScore: float
-    strategy: str
-    suggestions: List[Suggestion]
-    warnings: List[str]
+    summary: str = Field(min_length=1, max_length=500)
+    postType: PostType
+    replyScore: float = Field(ge=0, le=10)
+    strategy: str = Field(min_length=1, max_length=500)
+    suggestions: List[Suggestion] = Field(min_length=1, max_length=5)
+    warnings: List[str] = Field(default_factory=list, max_length=5)
