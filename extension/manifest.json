@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "ResReply",
+    "version": "0.1.0",
+    "description": "Generate high-signal replies from selected webpage text.",
+    "permissions": ["activeTab", "clipboardWrite"],
+    "host_permissions": ["http://localhost:8000/*"], //Todo: Change to actual backend URL
+    "action": {
+      "default_popup": "index.html",
+      "default_title": "ResReply"
+    }
+  }
