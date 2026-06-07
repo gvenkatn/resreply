@@ -19,6 +19,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
+    "@types/chrome": "^0.1.43",
     "jsdom": "^27.0.1",
     "vitest": "^3.2.6"
   }
