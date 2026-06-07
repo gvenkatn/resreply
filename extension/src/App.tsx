@@ -55,6 +55,9 @@ export function App() {
       setIsLoading(false);
     }
   }
+  async function handleCopy(text: string) {
+    await navigator.clipboard.writeText(text);
+  }
 
   return (
     <main className="app">
@@ -91,9 +94,16 @@ export function App() {
           <p>{result.strategy}</p>
 
           {result.suggestions.map((suggestion) => (
-            <article key={suggestion.label}>
+            <article className="suggestion" key={suggestion.label}>
               <h3>{suggestion.label}</h3>
               <p>{suggestion.text}</p>
+              <button
+                className="secondaryButton"
+                type="button"
+                onClick={() => handleCopy(suggestion.text)}
+              >
+                Copy
+              </button>
             </article>
           ))}
         </section>
