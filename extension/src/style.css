@@ -71,4 +71,12 @@ textarea {
     background: transparent;
     color: #e5e7eb;
     cursor: pointer;
+select {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    padding: 10px;
+    background: #020617;
+    color: #e5e7eb;
   }

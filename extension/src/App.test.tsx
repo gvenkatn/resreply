@@ -25,7 +25,7 @@ beforeEach(() => {
   } as unknown as typeof chrome;
 });
 
-test("generates and renders reply suggestions", async () => {
+test("generates replies with selected tone", async () => {
   vi.mocked(generateReplies).mockResolvedValue({
     summary: "Post summary",
     postType: "generic",
@@ -43,9 +43,18 @@ test("generates and renders reply suggestions", async () => {
     );
   });
 
+  fireEvent.change(screen.getByLabelText("Tone"), {
+    target: { value: "technical" },
+  });
+
   fireEvent.click(screen.getByText("Generate replies"));
 
   await waitFor(() => {
+    expect(generateReplies).toHaveBeenCalledWith({
+      selectedText: "Selected post text",
+      tone: "technical",
+    });
+
     expect(screen.getByText("Reply score: 7/10")).toBeInTheDocument();
     expect(screen.getByText("Great point.")).toBeInTheDocument();
   });

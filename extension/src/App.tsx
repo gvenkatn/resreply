@@ -9,7 +9,7 @@ type SelectedTextResponse = {
 
 export function App() {
   const [selectedText, setSelectedText] = useState("");
-  const [tone] = useState<Tone>("professional");
+  const [tone, setTone] = useState<Tone>("professional");
   const [result, setResult] = useState<GenerateResponse | null>(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +76,20 @@ export function App() {
           readOnly
         />
       </section>
-
+      <section className="card">
+        <label htmlFor="tone">Tone</label>
+        <select
+          id="tone"
+          value={tone}
+          onChange={(event) => setTone(event.target.value as Tone)}
+        >
+          <option value="professional">Professional</option>
+          <option value="technical">Technical</option>
+          <option value="recruiter-safe">Recruiter-safe</option>
+          <option value="supportive">Supportive</option>
+          <option value="witty">Witty</option>
+        </select>
+      </section>
       <button
         className="primaryButton"
         type="button"
